@@ -1,5 +1,7 @@
 package com.inkrodriguez.pokekotlinapi
 
+import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -24,15 +26,30 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        supportActionBar?.hide()
 
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
-        viewModel.getCtx = this.applicationContext
+        viewModel.setContext(applicationContext)
         viewModel.getBinding = this.binding
 
+        binding.btnBack.setOnClickListener {
+            viewModel.backPoke()
+        }
 
+        binding.btnNext.setOnClickListener {
+            viewModel.nextPoke()
+        }
 
         binding.button.setOnClickListener {
-            viewModel.getMyData()
+            if(binding.editPoke.text.isEmpty()){
+                Toast.makeText(this, "Nenhum dado foi inserido!", Toast.LENGTH_SHORT).show()
+            } else {
+                viewModel.getMyData()
+            }
+        }
+
+        binding.imgPoke.setOnClickListener {
+            startActivity(Intent(this@MainActivity, DetailActivityPokemon::class.java).putExtra("id", viewModel.id))
         }
 
 

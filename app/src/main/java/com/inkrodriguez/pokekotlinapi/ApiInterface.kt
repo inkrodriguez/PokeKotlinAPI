@@ -10,13 +10,15 @@ import retrofit2.http.Path
 interface ApiInterface {
 
     @GET("pokemon")
-    fun getData(): Call<myData>
+    fun getCount(): Call<myData>
 
     @GET("pokemon/{nomepoke}")
     fun getPokeInfo(@Path("nomepoke")nomepoke: String): Call<myDataTwo>
 
     @GET("pokemon/{id}")
-    fun getHomePoke(@Path("id")id: Int): Call<myDataTwo>
+    fun getPokeId(@Path("id")id: Int): Call<myDataTwo>
+
+
 
 
 }
