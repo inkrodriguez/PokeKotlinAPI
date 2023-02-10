@@ -15,5 +15,8 @@ interface ApiInterface {
     @GET("pokemon/{nomepoke}")
     fun getPokeInfo(@Path("nomepoke")nomepoke: String): Call<myDataTwo>
 
+    @GET("pokemon/{id}")
+    fun getHomePoke(@Path("id")id: Int): Call<myDataTwo>
+
 
 }
