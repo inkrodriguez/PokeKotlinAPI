@@ -49,7 +49,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.imgPoke.setOnClickListener {
-            startActivity(Intent(this@MainActivity, DetailActivityPokemon::class.java).putExtra("id", viewModel.id))
+            val intent = Intent(this, DetailActivityPokemon::class.java)
+            intent.putExtra("id", viewModel.id)
+            startActivity(intent)
         }
 
 
