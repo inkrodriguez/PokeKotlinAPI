@@ -1,5 +1,6 @@
 package com.inkrodriguez.pokekotlinapi
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.res.Resources
 import android.os.Build
@@ -16,13 +17,20 @@ import com.inkrodriguez.pokekotlinapi.databinding.ActivityDetailPokemonBinding
 class DetailActivityPokemon : AppCompatActivity() {
     private lateinit var viewModel: DetailViewModel
     private lateinit var binding: ActivityDetailPokemonBinding
+    var id = 0
+
+    fun recuperarIntent(){
+        id = intent.getIntExtra("id", 0)
+        viewModel.intent = id
+    }
 
     override fun onStart() {
         super.onStart()
-        viewModel.getDetailPokemon()
+        recuperarIntent()
+        viewModel.getDetailPokemon(id)
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
+    @SuppressLint("ResourceAsColor")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this)[DetailViewModel::class.java]
@@ -30,6 +38,7 @@ class DetailActivityPokemon : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.hide()
 
+        viewModel.xbinding = this.binding
         recuperarIntent()
 
         viewModel.namePoke.observe(this, Observer {
@@ -49,15 +58,21 @@ class DetailActivityPokemon : AppCompatActivity() {
         })
 
         viewModel.type.observe(this, Observer {
-            var type = it.toString()
+            binding.tvType.text = it.toString()
         })
 
+        viewModel.abilities.observe(this, Observer {
+            binding.tvAbilities.text = it.toString()
+        })
 
-    }
+        viewModel.weight.observe(this, Observer {
+            binding.tvWeight.text = it.toString()
+        })
 
-    private fun recuperarIntent(){
-        var id = intent.getIntExtra("id", 0)
-        viewModel.intent = id
+        viewModel.height.observe(this, Observer {
+            binding.tvHeight.text = it.toString()
+        })
+
     }
 
 }
